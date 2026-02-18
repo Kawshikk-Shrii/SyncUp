@@ -1,0 +1,81 @@
+// Import required packages
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const { createClient } = require("@supabase/supabase-js");
+
+// Load environment variables
+dotenv.config();
+
+// Create express app
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Supabase connection
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
+
+// Test route
+app.get("/", (req, res) => {
+  res.send("SyncUp backend running successfully");
+});
+
+
+// SIGNUP API
+app.post("/signup", async (req, res) => {
+
+  try {
+
+    const { name, email, password } = req.body;
+
+    // Basic validation
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        error: "Please provide name, email, and password"
+      });
+    }
+
+    // Insert into Supabase
+    const { data, error } = await supabase
+      .from("users")
+      .insert([
+        { name, email, password }
+      ])
+      .select();
+
+    if (error) {
+      return res.status(400).json({
+        error: error.message
+      });
+    }
+
+    res.status(201).json({
+      message: "User created successfully",
+      user: data
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      error: "Server error",
+      details: err.message
+    });
+
+  }
+
+});
+
+
+
+// Start server
+const PORT = 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
