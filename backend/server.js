@@ -72,6 +72,55 @@ app.post("/signup", async (req, res) => {
 });
 
 
+//Create-group API
+app.post("/create-group", async (req, res) => {
+
+  try {
+
+    const { group_name, created_by } = req.body;
+
+    if (!group_name || !created_by) {
+
+      return res.status(400).json({
+        error: "group_name and created_by required"
+      });
+
+    }
+
+    const { data, error } = await supabase
+      .from("groups")
+      .insert([
+        {
+          group_name,
+          created_by
+        }
+      ])
+      .select();
+
+    if (error) {
+
+      return res.status(400).json({
+        error: error.message
+      });
+
+    }
+
+    res.json({
+      message: "Group created successfully",
+      group: data
+    });
+
+  }
+
+  catch (err) {
+
+    res.status(500).json({
+      error: err.message
+    });
+
+  }
+
+});
 
 // Start server
 const PORT = 5000;
