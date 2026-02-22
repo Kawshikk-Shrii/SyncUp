@@ -10,7 +10,7 @@ router.post("/add", async (req, res) => {
 
   const {
     user_id,
-    group_id,
+    group_id, 
     date,
     start_time,
     end_time,
