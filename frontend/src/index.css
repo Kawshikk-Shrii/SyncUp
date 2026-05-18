@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    background:
+      radial-gradient(circle at top, rgba(110, 232, 154, 0.26), transparent 34%),
+      linear-gradient(180deg, #f7fbf7 0%, #f5f5f0 48%, #f2f4ef 100%);
+    color: #1a2e1a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Sora', 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #1a2e1a;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Primary CTA button — dark pill */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-dark text-white font-semibold px-6 py-2.5 rounded-pill hover:bg-[#2d4a2d] hover:-translate-y-0.5 active:scale-95 transition-all duration-200 text-sm disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+    box-shadow: 0 12px 28px rgba(26, 46, 26, 0.18);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 bg-white text-dark font-semibold px-5 py-2.5 rounded-pill border border-[#d1e8d1] hover:bg-card hover:-translate-y-0.5 transition-all duration-200 text-sm disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 24px rgba(26, 46, 26, 0.08);
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2 bg-[#f87171] text-white font-semibold px-5 py-2.5 rounded-pill hover:bg-[#ef4444] hover:-translate-y-0.5 transition-all duration-200 text-sm shadow-sm disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0;
+  }
+
+  .btn-chip {
+    @apply inline-flex items-center gap-2 bg-white/70 text-dark text-xs font-semibold px-3 py-1.5 rounded-pill border border-white/70 backdrop-blur-sm hover:bg-white transition-all duration-200;
+  }
+
+  .btn-chip-danger {
+    @apply text-[#a53030] border-[#f7caca] hover:bg-[#fff1f1];
+  }
+
+  /* Ghost / outlined button */
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 text-dark font-semibold text-sm hover:underline transition-all duration-200;
+  }
+
+  /* Section pill badge */
+  .section-badge {
+    @apply inline-flex items-center gap-1.5 bg-white/70 border border-white/80 text-dark text-xs font-semibold px-3 py-1 rounded-pill backdrop-blur-sm;
+    box-shadow: 0 8px 24px rgba(26, 46, 26, 0.08);
+  }
+
+  /* Feature / dashboard card */
+  .card {
+    @apply bg-white rounded-xl3 p-6 transition-all duration-300;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 45px rgba(26, 46, 26, 0.08);
+    backdrop-filter: blur(12px);
+  }
+
+  .card-elevated {
+    @apply relative overflow-hidden;
+  }
+
+  /* Mint-tinted card (features section) */
+  .card-mint {
+    @apply rounded-xl3 p-6;
+    background: linear-gradient(180deg, rgba(214, 252, 227, 0.92) 0%, rgba(200, 245, 216, 0.86) 100%);
+    box-shadow: 0 18px 40px rgba(110, 232, 154, 0.18);
+  }
+
+  /* Form input */
+  .input {
+    @apply w-full bg-white/95 border border-[#d1e8d1] rounded-xl text-dark placeholder-[#8aab8a] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-dark/20 focus:border-dark/40 transition-all duration-200;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+
+  /* Navbar link */
+  .nav-link {
+    @apply text-dark/80 text-sm font-medium hover:text-dark transition-colors duration-150;
+  }
+
+  /* Page content wrapper */
+  .page-wrapper {
+    @apply max-w-6xl mx-auto px-6;
+  }
+
+  /* Auth card container */
+  .auth-card {
+    @apply rounded-xl3 p-8 sm:p-10 max-w-md w-full mx-auto;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 24px 55px rgba(26, 46, 26, 0.12);
+    backdrop-filter: blur(16px);
+  }
+
+  /* Group card in dashboard */
+  .group-card {
+    @apply card cursor-pointer hover:-translate-y-1.5 transition-all duration-300 border border-transparent hover:border-[#d7ebd7];
+  }
+
+  .member-card {
+    @apply flex items-center gap-3 rounded-2xl border border-[#dcefdc] bg-[#fafdf9] px-4 py-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card;
+  }
+
+  .member-avatar {
+    @apply w-11 h-11 rounded-2xl bg-dark text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-sm;
+  }
+
+  .availability-card {
+    @apply flex items-center justify-between gap-4 bg-[#fafdf9] rounded-2xl px-4 py-3 border border-[#dcefdc] shadow-sm;
+  }
+
+  .availability-card-range {
+    @apply items-start;
+  }
+
+  .availability-empty {
+    @apply rounded-2xl border border-dashed border-[#d1e8d1] px-4 py-5 text-sm text-dark/50 bg-[#fafdf9];
+  }
+
+  .place-card {
+    @apply hover:-translate-y-1 hover:shadow-card-hover transition-all duration-300 border border-transparent hover:border-[#d7ebd7];
+  }
+
+  .skeleton-line {
+    @apply bg-gradient-to-r from-[#e8f3e8] via-[#f6fbf6] to-[#e8f3e8] bg-[length:200%_100%] animate-shimmer;
+  }
+
+  .navbar-shell {
+    @apply rounded-[28px] border border-white/50 px-5 py-4;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 16px 38px rgba(26, 46, 26, 0.12);
+  }
+
+  .navbar-shell-hero {
+    background: rgba(255, 255, 255, 0.38);
+  }
+
+  .navbar-shell-light {
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .availability-board-card {
+    @apply flex items-center justify-between gap-4 rounded-[20px] border border-[#e1efe4] bg-[#fbfefb] px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card;
+  }
+
+  .availability-range-card {
+    @apply items-start;
+  }
+
+  .availability-avatar {
+    background: linear-gradient(135deg, #1a2e1a 0%, #325532 100%);
+  }
+
+  .chat-shell {
+    background:
+      linear-gradient(180deg, rgba(247, 251, 247, 0.95) 0%, rgba(239, 248, 241, 0.9) 100%);
+    border: 1px solid rgba(212, 236, 218, 0.92);
+    border-radius: 24px;
+    padding: 1rem;
+  }
+
+  .chat-messages {
+    scrollbar-width: thin;
+  }
+
+  .chat-row {
+    @apply flex items-end gap-3 mb-3;
+  }
+
+  .chat-row-own {
+    @apply justify-end;
+  }
+
+  .chat-avatar {
+    @apply w-10 h-10 rounded-2xl bg-white flex items-center justify-center text-sm font-bold text-dark shrink-0 border border-[#dcefdc];
+  }
+
+  .chat-avatar-own {
+    @apply bg-dark text-white border-dark;
+  }
+
+  .chat-bubble {
+    @apply max-w-[85%] rounded-[22px] rounded-bl-md bg-white px-4 py-3 border border-[#dcefdc] shadow-sm;
+  }
+
+  .chat-bubble-own {
+    @apply bg-card border-[#bde6c9] rounded-br-md rounded-bl-[22px];
+  }
+
+  .chat-input-shell {
+    @apply flex items-end gap-3 bg-white/85 border border-[#dcefdc] rounded-[24px] p-3;
+  }
+
+  .chat-input {
+    @apply min-h-[52px] max-h-32 flex-1 resize-none bg-transparent text-sm text-dark placeholder:text-dark/40 focus:outline-none;
+  }
+
+  .chat-skeleton {
+    @apply flex items-start gap-3;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #c8f5d8;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6ee89a;
+}
+
+/* react-datepicker custom styles */
+.react-datepicker {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  border: 1px solid #d1e8d1 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(26,46,26,0.12) !important;
+}
+.react-datepicker__header {
+  background: #6ee89a !important;
+  border-bottom: none !important;
+  border-radius: 16px 16px 0 0 !important;
+  padding-top: 12px !important;
+}
+.react-datepicker__current-month {
+  color: #1a2e1a !important;
+  font-weight: 700 !important;
+}
+.react-datepicker__day--selected {
+  background-color: #1a2e1a !important;
+  border-radius: 999px !important;
+}
+.react-datepicker__day:hover {
+  background-color: #c8f5d8 !important;
+  border-radius: 999px !important;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.8s linear infinite;
+}
