@@ -49,14 +49,14 @@ export default function SignupPage() {
 
   return (
     <div className="app-surface flex flex-col">
-      <div className="px-6 py-5">
+      <div className="px-6 py-3">
         <Link to="/" className="flex items-center gap-2 w-fit">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-dark text-sm font-extrabold text-white">S</span>
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-dark text-sm font-extrabold text-white">S</span>
           <span className="font-heading text-2xl font-bold tracking-tight text-dark">SyncUp</span>
         </Link>
       </div>
 
-      <div className="flex flex-1 items-center justify-center px-6 py-16">
+      <div className="flex flex-1 items-start justify-center px-6 pb-4 pt-0 sm:pt-0">
         <MotionDiv
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
@@ -64,11 +64,11 @@ export default function SignupPage() {
           className="auth-card"
         >
           <div className="mb-8">
-            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-3xl bg-mint text-dark shadow-card">
+            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-lg bg-mint text-dark shadow-card">
               <span className="text-sm font-extrabold">GO</span>
             </div>
             <p className="eyebrow mb-3">Get started</p>
-            <h1 className="mb-2 text-5xl font-bold text-dark">Create your account</h1>
+            <h1 className="mb-2 text-4xl font-bold text-dark">Create your account</h1>
             <p className="text-sm text-muted">Set up SyncUp and bring your whole group into one planning space.</p>
           </div>
 

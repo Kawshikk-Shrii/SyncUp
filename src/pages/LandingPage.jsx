@@ -90,27 +90,26 @@ export default function LandingPage({ user }) {
   const joinTarget = user ? '/dashboard' : '/login'
 
   return (
-    <div className="min-h-screen bg-[#fff8ec]">
-      <div className="relative overflow-hidden">
-        <div className="absolute left-[-8rem] top-[-10rem] h-80 w-80 rounded-full bg-[#d9f2ff]/80 blur-3xl" />
-        <div className="absolute right-[-6rem] top-24 h-72 w-72 rounded-full bg-[#ffe2d3]/80 blur-3xl" />
-        <div className="absolute bottom-[-10rem] left-1/3 h-80 w-80 rounded-full bg-[#dff8e8]/80 blur-3xl" />
-
+    <div className="app-surface">
+      <div className="relative">
+        <div className="pointer-events-none absolute left-[-8rem] top-[-9rem] h-80 w-80 rounded-full bg-blue/30 blur-3xl" />
+        <div className="pointer-events-none absolute right-[-7rem] top-24 h-72 w-72 rounded-full bg-yellow/30 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-[-12rem] left-1/3 h-80 w-80 rounded-full bg-mint/30 blur-3xl" />
         <Navbar user={user} variant="hero" />
 
-        <section className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 pb-20 pt-12 lg:flex-row lg:pb-28 lg:pt-16">
+        <section className="relative mx-auto flex max-w-7xl flex-col items-center gap-9 px-4 pb-0 pt-7 sm:px-6 sm:pt-8 lg:flex-row lg:gap-10 lg:pb-2 lg:pt-8">
           <MotionDiv
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="max-w-2xl flex-1 text-center lg:text-left"
+            className="max-w-2xl flex-1 text-center lg:relative lg:left-2 lg:max-w-xl lg:text-left xl:left-4"
           >
             <div className="section-badge mb-6">
               <Icon type="calendar" />
               <span>Student-friendly scheduling for groups and teams</span>
             </div>
 
-            <h1 className="mb-5 text-5xl font-extrabold leading-[1.05] tracking-tight text-dark sm:text-6xl lg:text-[4rem]">
+            <h1 className="mb-5 text-5xl font-bold leading-[1.05] text-dark sm:text-6xl lg:text-[4rem]">
               Find places that work for everyone
             </h1>
 
@@ -132,18 +131,19 @@ export default function LandingPage({ user }) {
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.08 }}
-            className="flex w-full flex-1 justify-center lg:justify-end"
+            className="flex w-full flex-1 justify-center lg:relative lg:left-6 lg:top-3 xl:left-10"
           >
             <SchedulingIllustration />
           </MotionDiv>
         </section>
       </div>
 
-      <section id="features" className="bg-[#fffdf7] py-20 lg:py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section id="features" className="relative overflow-hidden bg-transparent pb-16 pt-6 lg:pb-20 lg:pt-20">
+        <div className="pointer-events-none absolute right-[-5rem] top-10 h-64 w-64 rounded-full bg-lavender/30 blur-3xl" />
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-12 max-w-2xl">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-muted">Features</p>
-            <h2 className="text-4xl font-extrabold leading-tight text-dark md:text-5xl">
+            <h2 className="text-4xl font-bold leading-tight text-dark md:text-5xl">
               A calmer way to get everyone on the same calendar.
             </h2>
           </div>
@@ -156,9 +156,10 @@ export default function LandingPage({ user }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.3, delay: index * 0.06 }}
-                className={`${feature.color} rounded-3xl p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover`}
+                className="card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
               >
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-dark shadow-sm">
+                <div className={`mb-5 h-1.5 w-14 rounded-full ${feature.color}`} />
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-[18px] bg-white/80 text-dark shadow-sm backdrop-blur-xl">
                   <Icon type={feature.icon} />
                 </div>
                 <h3 className="mb-2 text-xl font-extrabold text-dark">{feature.title}</h3>
@@ -169,11 +170,12 @@ export default function LandingPage({ user }) {
         </div>
       </section>
 
-      <section id="about" className="bg-[#fff8ec] py-20 lg:py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section id="about" className="relative overflow-hidden py-16 lg:py-20">
+        <div className="pointer-events-none absolute left-[-6rem] top-24 h-72 w-72 rounded-full bg-coral/20 blur-3xl" />
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-12 text-center">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-muted">How It Works</p>
-            <h2 className="mx-auto max-w-2xl text-4xl font-extrabold leading-tight text-dark md:text-5xl">
+            <h2 className="mx-auto max-w-2xl text-4xl font-bold leading-tight text-dark md:text-5xl">
               From group chat chaos to a clear plan in four steps.
             </h2>
           </div>
@@ -186,9 +188,9 @@ export default function LandingPage({ user }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ duration: 0.3, delay: index * 0.06 }}
-                className="rounded-3xl border border-white/80 bg-white/75 p-6 shadow-card backdrop-blur"
+                className="card p-6"
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-dark font-extrabold text-white">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-[16px] bg-dark font-extrabold text-white shadow-sm">
                   {index + 1}
                 </div>
                 <h3 className="text-lg font-extrabold text-dark">{step}</h3>
@@ -198,8 +200,8 @@ export default function LandingPage({ user }) {
         </div>
       </section>
 
-      <section className="bg-[#fffdf7] px-6 py-20">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 rounded-[32px] bg-dark p-8 text-center shadow-[0_24px_60px_rgba(26,46,26,0.2)] md:flex-row md:p-10 md:text-left">
+      <section className="px-4 py-20 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 rounded-[28px] bg-dark p-8 text-center shadow-[0_24px_70px_rgba(26,46,26,0.22)] md:flex-row md:p-10 md:text-left">
           <div>
             <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/65">
               <Icon type="map" />
@@ -213,7 +215,7 @@ export default function LandingPage({ user }) {
         </div>
       </section>
 
-      <footer className="bg-[#fff8ec] px-6 py-8">
+      <footer className="px-6 py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 border-t border-dark/10 pt-8 md:flex-row">
           <div className="flex items-center gap-2">
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-hero" />

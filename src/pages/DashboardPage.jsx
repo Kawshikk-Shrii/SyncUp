@@ -4,9 +4,26 @@ import toast from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import { apiFetch } from '../lib/api'
-import { formatDisplayDate } from '../lib/date'
 
 const MotionDiv = motion.div
+
+function formatDate(date) {
+  if (!date) return 'Unknown date'
+
+  const parsedDate = new Date(date)
+  if (Number.isNaN(parsedDate.getTime())) return 'Unknown date'
+
+  return parsedDate.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
+function formatCreatedDate(date) {
+  const formattedDate = formatDate(date)
+  return formattedDate === 'Unknown date' ? formattedDate : `Created ${formattedDate}`
+}
 
 function GroupSkeleton() {
   return (
@@ -112,46 +129,48 @@ export default function DashboardPage({ user }) {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="page-hero"
+        className="page-hero dashboard-hero"
       >
-        <div className="page-wrapper">
-          <p className="eyebrow mb-3">Dashboard</p>
-          <h1 className="text-5xl font-bold text-dark md:text-7xl">Welcome back, {displayName}</h1>
-          <p className="mt-4 max-w-2xl text-muted">
-            Manage groups, invite members, and turn scattered availability into a clear meeting plan.
-          </p>
+        <div className="page-wrapper flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="eyebrow mb-3">Dashboard</p>
+            <h1 className="text-4xl font-bold text-dark md:text-6xl">Welcome back, {displayName}</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-muted sm:text-base">
+              Manage groups, invite members, and turn scattered availability into a clear meeting plan.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button id="create-group-btn" onClick={openCreate} className="btn-primary">
+              Create Group
+            </button>
+            <button id="join-group-btn" onClick={openJoin} className="btn-secondary">
+              Join with ID
+            </button>
+          </div>
         </div>
       </MotionDiv>
 
       <div className="page-wrapper py-10">
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-4">
           {[
-            { label: 'My Groups', value: groups.length, color: 'bg-blue text-white' },
-            { label: 'Quick Actions', value: 2, color: 'bg-mint text-dark' },
-            { label: 'Pending Availability', value: loading ? '-' : 'Ready', color: 'bg-yellow text-dark' },
-            { label: 'Best Common Slots', value: 'Auto', color: 'bg-lavender text-dark' },
+            { label: 'My Groups', value: groups.length, accent: 'bg-blue' },
+            { label: 'Quick Actions', value: 2, accent: 'bg-mint' },
+            { label: 'Availability', value: loading ? '-' : 'Ready', accent: 'bg-yellow' },
+            { label: 'Scheduling', value: 'Auto', accent: 'bg-lavender' },
           ].map((item) => (
-            <div key={item.label} className={`${item.color} rounded-3xl p-5 shadow-card`}>
-              <p className="text-sm font-extrabold opacity-75">{item.label}</p>
-              <p className="mt-3 text-3xl font-extrabold">{item.value}</p>
+            <div key={item.label} className="card p-5">
+              <div className={`mb-4 h-1.5 w-12 rounded-full ${item.accent}`} />
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-muted">{item.label}</p>
+              <p className="mt-3 text-3xl font-extrabold text-dark">{item.value}</p>
             </div>
           ))}
         </div>
 
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row">
-          <button id="create-group-btn" onClick={openCreate} className="btn-primary">
-            + Create Group
-          </button>
-          <button id="join-group-btn" onClick={openJoin} className="btn-secondary">
-            Join with ID
-          </button>
-        </div>
-
         {(createOpen || joinOpen) && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+          <div className="mb-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {createOpen && (
               <div className="card card-elevated animate-fade-up">
-                <h2 className="mb-2 text-4xl font-bold text-dark">Create a New Group</h2>
+                <h2 className="mb-2 text-3xl font-bold text-dark">Create a New Group</h2>
                 <p className="mb-5 text-sm text-muted">Start a fresh planning space and invite people with a shareable group ID.</p>
                 <form onSubmit={handleCreateGroup} className="flex flex-col gap-3">
                   <input
@@ -177,7 +196,7 @@ export default function DashboardPage({ user }) {
 
             {joinOpen && (
               <div className="card card-elevated animate-fade-up">
-                <h2 className="mb-2 text-4xl font-bold text-dark">Join a Group</h2>
+                <h2 className="mb-2 text-3xl font-bold text-dark">Join a Group</h2>
                 <p className="mb-5 text-sm text-muted">Paste the full group ID to jump straight into the shared planning space.</p>
                 <form onSubmit={handleJoinGroup} className="flex flex-col gap-3">
                   <input
@@ -209,10 +228,10 @@ export default function DashboardPage({ user }) {
           </div>
         ) : groups.length === 0 ? (
           <div className="card card-elevated py-16 text-center">
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-yellow/35 text-xl font-extrabold text-dark">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-yellow/35 text-lg font-extrabold text-dark">
               Plan
             </div>
-            <h3 className="mb-2 text-5xl font-bold text-dark">No groups yet</h3>
+            <h3 className="mb-2 text-4xl font-bold text-dark">No groups yet</h3>
             <p className="mx-auto mb-6 max-w-md text-muted">
               Create your first SyncUp group or join one with an invite ID to start collecting availability.
             </p>
@@ -237,7 +256,7 @@ export default function DashboardPage({ user }) {
                   transition={{ duration: 0.25, delay: index * 0.05 }}
                 >
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl font-bold mb-4 shadow-sm"
+                    className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg text-xl font-bold text-white shadow-sm"
                     style={{ backgroundColor: avatarColors[index % avatarColors.length] }}
                   >
                     {groupNameValue.charAt(0).toUpperCase()}
@@ -249,7 +268,7 @@ export default function DashboardPage({ user }) {
                   </p>
 
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted">{formatDisplayDate(group.created_at)}</span>
+                    <span className="text-muted">{formatCreatedDate(group.created_at)}</span>
                     <span className="font-bold text-dark/50 transition-transform duration-300 group-hover:translate-x-1">View</span>
                   </div>
                 </MotionDiv>

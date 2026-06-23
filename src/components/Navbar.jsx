@@ -18,12 +18,12 @@ export default function Navbar({ user, variant = 'hero' }) {
   }
 
   return (
-    <nav className="sticky top-0 z-50 px-4 pt-3 sm:px-6">
+    <nav className="relative px-4 pt-5 sm:px-6">
       <MotionDiv
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className={`navbar-shell ${isHero ? 'navbar-shell-hero' : 'navbar-shell-light'} mx-auto max-w-6xl`}
+        className={`navbar navbar-shell ${isHero ? 'navbar-shell-hero' : 'navbar-shell-light'} mx-auto max-w-6xl`}
       >
         <div className="flex min-h-10 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2">
@@ -42,12 +42,12 @@ export default function Navbar({ user, variant = 'hero' }) {
             {user ? (
               <>
                 <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                <button onClick={handleSignOut} className="btn-primary">Sign Out</button>
+                <button onClick={handleSignOut} className="btn-primary navbar-action sign-out-btn">Sign Out</button>
               </>
             ) : (
               <>
                 <Link to="/login" className="nav-link">Sign in</Link>
-                <Link to="/signup" className="btn-primary">Create Group</Link>
+                <Link to="/signup" className="btn-primary navbar-action">Create Group</Link>
               </>
             )}
           </div>
@@ -76,12 +76,12 @@ export default function Navbar({ user, variant = 'hero' }) {
               {user ? (
                 <>
                   <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                  <button onClick={handleSignOut} className="btn-primary w-fit">Sign Out</button>
+                  <button onClick={handleSignOut} className="btn-primary navbar-action sign-out-btn w-fit">Sign Out</button>
                 </>
               ) : (
                 <>
                   <Link to="/login" className="nav-link">Sign in</Link>
-                  <Link to="/signup" className="btn-primary w-fit">Create Group</Link>
+                  <Link to="/signup" className="btn-primary navbar-action w-fit">Create Group</Link>
                 </>
               )}
             </MotionDiv>

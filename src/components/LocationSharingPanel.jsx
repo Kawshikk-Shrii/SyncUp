@@ -58,7 +58,7 @@ export default function LocationSharingPanel({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-muted">Meetup Locations</p>
-          <h2 className="text-2xl font-extrabold text-dark">Find places that work for everyone</h2>
+          <h2 className="text-2xl font-bold text-dark">Find places that work for everyone</h2>
           <p className="mt-2 text-sm leading-relaxed text-dark/60">
             Share your group&apos;s locations and SyncUp suggests hangout spots near, between, and around everyone.
           </p>
@@ -66,13 +66,13 @@ export default function LocationSharingPanel({
         <span className="btn-chip shrink-0">{recommendationCount} location{recommendationCount === 1 ? '' : 's'} ready</span>
       </div>
 
-      <div className="mt-5 rounded-2xl bg-[#f5fbf6] px-4 py-3 text-sm text-dark/65">
+      <div className="mt-5 rounded-lg border border-dark/10 bg-white/60 px-4 py-3 text-sm text-dark/65">
         Use your current location to find fair meetup spots for your group. SyncUp asks through your browser and keeps this MVP data only on this page.
       </div>
 
       <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
         {participants.map((participant) => (
-          <div key={participant.id} className="rounded-2xl border border-[#dcefdc] bg-[#fbfefb] p-4 shadow-sm">
+          <div key={participant.id} className="rounded-lg border border-dark/10 bg-white/75 p-4 shadow-sm">
             <div className="mb-3 flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <h3 className="truncate font-bold text-dark">{participant.name}</h3>
@@ -108,7 +108,7 @@ export default function LocationSharingPanel({
                 </div>
               </>
             ) : (
-              <div className="rounded-2xl border border-[#dcefdc] bg-white/70 px-4 py-3 text-sm text-dark/55">
+              <div className="rounded-lg border border-dark/10 bg-white/70 px-4 py-3 text-sm text-dark/55">
                 {participant.hasLocation ? 'Shared by this member' : 'This member needs to share from their own account.'}
               </div>
             )}

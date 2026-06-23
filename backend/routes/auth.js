@@ -26,22 +26,10 @@ router.post('/signup', async (req, res) => {
 
   const user = data.user
 
-  // Insert into custom users table
-  const { error: dbError } = await supabaseAdmin
-    .from('users')
-    .upsert({
-      id: user.id,
-      name: name || '',
-      full_name: name || '',
-      email: email,
-      avatar: null,
-      provider: 'local',
-      google_id: null,
-      updated_at: new Date().toISOString(),
-    })
-
-  if (dbError) {
-    return res.status(400).json({ error: dbError.message })
+  try {
+    await ensureUserProfile(user)
+  } catch (dbError) {
+    return res.status(dbError.status || 400).json({ error: dbError.message })
   }
 
   return res.json({ user })

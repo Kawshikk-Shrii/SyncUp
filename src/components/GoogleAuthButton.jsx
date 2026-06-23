@@ -35,9 +35,9 @@ export default function GoogleAuthButton() {
       type="button"
       onClick={handleGoogleSignIn}
       disabled={loading}
-      className="inline-flex w-full items-center justify-center gap-3 rounded-[20px] border border-[#E5D7B7] bg-white/80 px-4 py-3 text-sm font-extrabold text-dark shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+      className="inline-flex w-full items-center justify-center gap-3 rounded-lg border border-dark/10 bg-white/80 px-4 py-3 text-sm font-extrabold text-dark shadow-sm transition-all duration-200 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
     >
-      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm font-extrabold text-[#4285f4]">
+      <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#eef4ff] text-sm font-extrabold text-[#4285f4]">
         G
       </span>
       {loading ? 'Connecting to Google...' : 'Continue with Google'}

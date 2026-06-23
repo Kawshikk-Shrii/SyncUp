@@ -416,19 +416,20 @@ export default function GroupPage({ user }) {
   const mapsSearchTerms = 'tourist attractions cafes restaurants viewpoints hotels'
 
   return (
-    <div className="min-h-screen bg-light">
+    <div className="app-surface">
       <Navbar user={user} variant="light" />
 
-      <div className="bg-hero px-6 py-10">
-        <div className="max-w-6xl mx-auto">
-          <Link to="/dashboard" className="inline-flex items-center gap-1.5 text-dark/60 text-sm font-medium hover:text-dark mb-4 transition-colors">
+      <div className="page-hero group-workspace-hero">
+        <div className="page-wrapper">
+          <Link to="/dashboard" className="mb-4 inline-flex items-center gap-1.5 text-sm font-bold text-dark/60 transition-colors hover:text-dark">
             Back to Dashboard
           </Link>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
             <div>
-              <h1 className="text-4xl font-extrabold text-dark">{group.group_name || group.name}</h1>
+              <p className="eyebrow mb-3">Group Workspace</p>
+              <h1 className="text-4xl font-bold text-dark md:text-6xl">{group.group_name || group.name}</h1>
               <div className="flex flex-wrap items-center gap-2 mt-2">
-                <span className="text-dark/60 text-sm font-mono">{groupId}</span>
+                <span className="rounded-md border border-dark/10 bg-white/60 px-2.5 py-1.5 font-mono text-xs text-dark/65">{groupId}</span>
                 <button onClick={copyGroupId} className="btn-chip">
                   {copied ? 'Copied' : 'Copy ID'}
                 </button>
@@ -448,13 +449,13 @@ export default function GroupPage({ user }) {
       </div>
 
       <div
-        className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 xl:grid-cols-[minmax(0,1.3fr)_minmax(340px,0.85fr)] gap-8 items-start"
+        className="page-wrapper grid grid-cols-1 xl:grid-cols-[minmax(0,1.3fr)_minmax(340px,0.85fr)] gap-8 items-start py-10"
       >
         <div className="flex flex-col gap-8">
           <div className="card card-elevated">
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-5">
               <div>
-                <h2 className="font-bold text-dark text-xl">Members</h2>
+                <h2 className="text-2xl font-bold text-dark">Members</h2>
                 <p className="text-dark/55 text-sm mt-1">Everyone in this group, not just members who added availability.</p>
               </div>
               <button onClick={loadGroupPage} className="btn-chip">Refresh group</button>
@@ -472,7 +473,7 @@ export default function GroupPage({ user }) {
           <div className="card card-elevated">
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-5">
               <div>
-                <h2 className="font-bold text-dark text-xl">Shared Availability Board</h2>
+                <h2 className="text-2xl font-bold text-dark">Shared Availability Board</h2>
                 <p className="text-dark/55 text-sm mt-1">Everyone&apos;s date ranges and daily free-time windows in one place.</p>
               </div>
               <span className="btn-chip">{sharedAvailability.length} total range{sharedAvailability.length === 1 ? '' : 's'}</span>
@@ -495,7 +496,7 @@ export default function GroupPage({ user }) {
           <div className="card card-elevated">
             <div className="flex items-start justify-between gap-4 mb-5">
               <div>
-                <h2 className="font-bold text-dark text-xl">Add Your Availability</h2>
+                <h2 className="text-2xl font-bold text-dark">Add Your Availability</h2>
                 <p className="text-dark/55 text-sm mt-1">Choose a date range and a daily time window for when you are free.</p>
               </div>
               {selectedRangePreview && <span className="btn-chip">{selectedRangePreview}</span>}
@@ -565,7 +566,7 @@ export default function GroupPage({ user }) {
               </button>
             </form>
 
-            <div className="mt-6 pt-6 border-t border-[#d1e8d1]">
+            <div className="mt-6 border-t border-dark/10 pt-6">
               <div className="flex items-center justify-between gap-4 mb-3">
                 <p className="text-xs font-semibold text-dark/50 uppercase tracking-wide">Your Added Ranges</p>
                 <span className="text-xs text-dark/45">Only you can delete your own entries</span>
@@ -597,10 +598,10 @@ export default function GroupPage({ user }) {
             </div>
           </div>
 
-          <div className="card border-2 border-dashed border-[#b5e8c8] bg-[#f0fdf4] card-elevated">
+          <div className="card card-elevated border-mint/45 bg-[#f7fff8]">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex-1">
-                <h2 className="font-bold text-dark text-xl">Find Common Time</h2>
+                <h2 className="text-2xl font-bold text-dark">Find Common Time</h2>
                 <p className="text-dark/60 text-sm mt-1">
                   SyncUp checks every day inside each member&apos;s date range and finds the earliest shared overlap.
                 </p>
@@ -613,7 +614,7 @@ export default function GroupPage({ user }) {
             {schedule && (
               <div className="mt-5">
                 {schedule.available ? (
-                  <div className="bg-white rounded-2xl p-5 border border-[#b5e8c8] shadow-sm">
+                  <div className="rounded-lg border border-[#b5e8c8] bg-white p-5 shadow-sm">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="w-2.5 h-2.5 rounded-full bg-[#3acc78] inline-block animate-pulse" />
                       <span className="text-xs font-bold text-[#1a7a3a] uppercase tracking-wide">Common Slot Found</span>
@@ -623,7 +624,7 @@ export default function GroupPage({ user }) {
                     <p className="text-sm text-dark/50 mt-1">Duration: {schedule.duration || 'Unknown'}</p>
                   </div>
                 ) : (
-                  <div className="bg-white rounded-2xl p-5 border border-[#fde8e8] shadow-sm">
+                  <div className="rounded-lg border border-[#fde8e8] bg-white p-5 shadow-sm">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="w-2.5 h-2.5 rounded-full bg-[#f87171] inline-block" />
                       <span className="text-xs font-bold text-[#7a1a1a] uppercase tracking-wide">No Common Time Yet</span>
@@ -667,7 +668,7 @@ export default function GroupPage({ user }) {
                             href={mapsUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="place-card rounded-2xl border border-[#dcefdc] bg-[#fbfefb] p-4"
+                            className="place-card rounded-lg border border-[#dcefdc] bg-[#fbfefb] p-4"
                           >
                             <div className="flex items-start justify-between gap-3">
                               <div>
@@ -696,7 +697,7 @@ export default function GroupPage({ user }) {
             </div>
           )}
 
-          <div className="card-mint rounded-2xl p-5 shadow-card">
+          <div className="card-mint p-5 shadow-card">
             <h3 className="font-bold text-dark text-sm mb-2">Share this Group</h3>
             <p className="text-dark/60 text-xs mb-3">Share the full group ID so other members can join the planning space.</p>
             <div className="bg-white rounded-xl px-3 py-2.5 font-mono text-xs text-dark/80 break-all border border-[#d1e8d1]">

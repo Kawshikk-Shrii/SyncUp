@@ -4,6 +4,8 @@ import toast from 'react-hot-toast'
 import { supabase } from '../lib/supabaseClient'
 import { syncCurrentUserProfile } from '../lib/authProfile'
 
+let callbackHandled = false
+
 export default function AuthCallbackPage() {
   const navigate = useNavigate()
   const [message, setMessage] = useState('Finishing sign in...')
@@ -13,16 +15,31 @@ export default function AuthCallbackPage() {
 
     async function completeSignIn() {
       try {
-        const params = new URLSearchParams(window.location.search)
-        const code = params.get('code')
+        if (callbackHandled) return
+        callbackHandled = true
 
-        if (code) {
-          const { error } = await supabase.auth.exchangeCodeForSession(code)
-          if (error) throw error
+        const params = new URLSearchParams(window.location.search)
+        const oauthError = params.get('error_description') || params.get('error')
+        const code = params.get('code')
+        let session = null
+
+        if (oauthError) {
+          throw new Error(`Google sign in failed: ${oauthError}`)
         }
 
-        const { data: { session }, error } = await supabase.auth.getSession()
-        if (error) throw error
+        if (code) {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+          if (error) throw error
+          session = data?.session || null
+          window.history.replaceState({}, document.title, '/auth/callback')
+        }
+
+        if (!session) {
+          const { data, error } = await supabase.auth.getSession()
+          if (error) throw error
+          session = data?.session || null
+        }
+
         if (!session) throw new Error('No active session was returned by Google.')
 
         if (active) setMessage('Preparing your SyncUp workspace...')
@@ -31,6 +48,7 @@ export default function AuthCallbackPage() {
         toast.success('Signed in with Google')
         navigate('/dashboard', { replace: true })
       } catch (error) {
+        callbackHandled = false
         toast.error(error.message || 'Google sign in failed')
         navigate('/login', { replace: true })
       }

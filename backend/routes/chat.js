@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { authenticate } = require('../middleware/auth')
 const { supabaseAdmin } = require('../supabase')
+const { ensureUserProfile } = require('../lib/profile')
 const { requireMembership } = require('./shared')
 
 async function fetchUserMap(userIds) {
@@ -9,7 +10,7 @@ async function fetchUserMap(userIds) {
 
   const { data: userRows, error } = await supabaseAdmin
     .from('users')
-    .select('id, name, full_name, email')
+    .select('id, name, email')
     .in('id', userIds)
 
   const userMap = new Map()
@@ -49,7 +50,7 @@ async function fetchUserMap(userIds) {
 
 function shapeMessage(message, userMap, currentUserId) {
   const sender = userMap.get(message.user_id) || {}
-  const senderName = sender.full_name || sender.name || sender.email?.split('@')[0] || 'Member'
+  const senderName = sender.name || sender.email?.split('@')[0] || 'Member'
 
   return {
     ...message,
@@ -102,6 +103,7 @@ router.post('/groups/:groupId/messages', authenticate, async (req, res) => {
 
   try {
     await requireMembership(groupId, req.user.id)
+    await ensureUserProfile(req.user)
 
     const { data: message, error } = await supabaseAdmin
       .from('group_messages')

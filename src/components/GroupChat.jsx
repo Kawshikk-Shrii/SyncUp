@@ -109,7 +109,7 @@ export default function GroupChat({ groupId, currentUserId }) {
     <div className="card card-elevated flex h-full min-h-[560px] flex-col">
       <div className="mb-5 flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-4xl font-bold text-dark">Group Chat</h2>
+          <h2 className="text-2xl font-bold text-dark">Group Chat</h2>
           <p className="mt-1 text-sm text-muted">Slack-lite conversation for this group only.</p>
         </div>
         <span className="btn-chip">Live</span>
@@ -129,10 +129,10 @@ export default function GroupChat({ groupId, currentUserId }) {
             <div className="space-y-3">
               {[1, 2, 3].map((item) => (
                 <div key={item} className="chat-skeleton">
-                  <div className="skeleton-line h-10 w-10 rounded-2xl" />
+                  <div className="skeleton-line h-10 w-10 rounded-lg" />
                   <div className="flex-1 space-y-2">
                     <div className="skeleton-line h-4 w-28 rounded-lg" />
-                    <div className="skeleton-line h-12 w-full rounded-2xl" />
+                    <div className="skeleton-line h-12 w-full rounded-lg" />
                   </div>
                 </div>
               ))}

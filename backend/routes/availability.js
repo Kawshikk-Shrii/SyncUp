@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { authenticate } = require('../middleware/auth')
 const { supabaseAdmin } = require('../supabase')
+const { ensureUserProfile } = require('../lib/profile')
 const { getGroupById, requireMembership } = require('./shared')
 
 function normalizeDateString(rawDate) {
@@ -62,6 +63,8 @@ async function addAvailabilityHandler(req, res) {
   }
 
   try {
+    await ensureUserProfile(req.user)
+
     const group = await getGroupById(groupId)
     if (!group) {
       return res.status(404).json({ error: 'Group not found' })
@@ -151,14 +154,14 @@ router.get('/availability-board/:group_id', authenticate, async (req, res) => {
     if (userIds.length) {
       const { data: userRows } = await supabaseAdmin
         .from('users')
-        .select('id, name, full_name, email')
+        .select('id, name, email')
         .in('id', userIds)
 
       userMap = new Map(
         (userRows || []).map(row => [
           row.id,
           {
-            name: row.full_name || row.name || row.email?.split('@')[0] || 'Member',
+            name: row.name || row.email?.split('@')[0] || 'Member',
             email: row.email || '',
           },
         ])

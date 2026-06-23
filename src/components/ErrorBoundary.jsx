@@ -20,10 +20,10 @@ export default class ErrorBoundary extends Component {
       return (
         <div className="app-surface flex items-center justify-center px-6 py-16">
           <div className="card max-w-lg text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-coral text-3xl font-extrabold text-white">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-coral text-3xl font-extrabold text-white">
               !
             </div>
-            <h1 className="mb-2 text-5xl font-bold text-dark">Something went wrong</h1>
+            <h1 className="mb-2 text-4xl font-bold text-dark">Something went wrong</h1>
             <p className="mb-6 text-muted">
               SyncUp hit an unexpected UI error. Refresh the page or head back to the dashboard.
             </p>

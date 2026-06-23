@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { authenticate } = require('../middleware/auth')
 const { supabaseAdmin } = require('../supabase')
+const { ensureUserProfile } = require('../lib/profile')
 const { normalizeGroup, getGroupById, getMembership, requireMembership } = require('./shared')
 
 function isMissingGroupNameColumn(error, columnName) {
@@ -49,7 +50,7 @@ async function fetchMemberProfiles(groupId, currentUserId) {
   let profiles = []
   const { data: userRows, error: userError } = await supabaseAdmin
     .from('users')
-    .select('id, name, full_name, email')
+    .select('id, name, email')
     .in('id', userIds)
 
   if (!userError && Array.isArray(userRows)) {
@@ -94,7 +95,7 @@ async function fetchMemberProfiles(groupId, currentUserId) {
   return memberships.map(member => {
     const profile = profileMap.get(member.user_id) || {}
     const location = locationMap.get(member.user_id) || {}
-    const displayName = profile.full_name || profile.name || profile.email?.split('@')[0] || 'Member'
+    const displayName = profile.name || profile.email?.split('@')[0] || 'Member'
 
     return {
       id: member.user_id,
@@ -244,6 +245,7 @@ router.put('/groups/:groupId/location', authenticate, async (req, res) => {
 
   try {
     await requireMembership(groupId, req.user.id)
+    await ensureUserProfile(req.user)
 
     const { data, error } = await supabaseAdmin
       .from('group_member_locations')
@@ -299,6 +301,8 @@ async function createGroupHandler(req, res) {
   }
 
   try {
+    await ensureUserProfile(req.user)
+
     let group
     let groupError
 
@@ -343,7 +347,7 @@ async function createGroupHandler(req, res) {
     return res.status(200).json({ group: normalizeGroup(group) })
   } catch (error) {
     console.error('Create group error:', error)
-    return res.status(500).json({ error: 'Internal server error' })
+    return res.status(error.status || 500).json({ error: error.message || 'Internal server error' })
   }
 }
 
@@ -359,6 +363,8 @@ async function joinGroupHandler(req, res) {
   }
 
   try {
+    await ensureUserProfile(req.user)
+
     const group = await getGroupById(groupId)
     if (!group) {
       return res.status(404).json({ error: 'Group not found' })
@@ -380,7 +386,7 @@ async function joinGroupHandler(req, res) {
     return res.status(200).json({ success: true, group })
   } catch (error) {
     console.error('Join group error:', error)
-    return res.status(500).json({ error: 'Internal server error' })
+    return res.status(error.status || 500).json({ error: error.message || 'Internal server error' })
   }
 }
 

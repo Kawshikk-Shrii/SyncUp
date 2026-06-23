@@ -8,24 +8,18 @@ create extension if not exists "pgcrypto";
 create table if not exists public.users (
   id uuid primary key references auth.users(id) on delete cascade,
   name text,
-  full_name text,
   email text unique,
+  password text,
   avatar text,
-  provider text not null default 'local',
-  google_id text,
-  updated_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
 
 alter table public.users
-  add column if not exists avatar text,
-  add column if not exists provider text not null default 'local',
-  add column if not exists google_id text,
-  add column if not exists updated_at timestamptz not null default now();
+  add column if not exists password text,
+  add column if not exists avatar text;
 
-create unique index if not exists users_google_id_unique
-  on public.users(google_id)
-  where google_id is not null;
+alter table public.users
+  alter column password drop not null;
 
 create table if not exists public.groups (
   id uuid primary key default gen_random_uuid(),
